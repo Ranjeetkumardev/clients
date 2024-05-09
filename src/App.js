@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import Book from "./Components/Book";
+import Checkout from "./Components/Checkout";
+import Header from "./Components/Header";
+import Home from "./Components/Home";
+import NoutFound from "./Components/NoutFound";
+import Register from "./Components/Register";
+
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 function App() {
+  const token = localStorage.getItem("token");
+  console.log(token);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Header />
+        <Routes>
+          <Route exact path="/book" element={token ? <Book /> : <Register />} />
+          <Route exact path="/" element={token ? <Home /> : <Register />} />
+          <Route
+            exact
+            path="/checkout"
+            element={token ? <Checkout /> : <Register />}
+          />
+          <Route exact path="/register" element={<Register />} />
+          <Route path="/:abcd" element={<NoutFound />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
